@@ -1,76 +1,81 @@
-# Basic NodeJS Project Boiler Plate
+# Vehicle Booking Service
 
-## Brief Description
+## Overview
 
-This is a base Node JS template, which anyone can use as it has been prepared, by keeping some of the most important code principles and project management recommendations. Feel free to change anything.
+The Vehicle Booking Service is a web application that allows users to book various types of vehicles for different services. It includes functionality for creating, retrieving, updating, and deleting vehicle bookings. The service supports multiple vehicle types and service types.
 
-### Project Structure
+## Project Structure
 
-`src` -> Inside the src folder all the actual source code regarding the project will reside , this will not include any kind of tests.(You might want to make a separate tests folder)
+The project structure is organized as follows:
 
-Let's take a look inside the 'src' folder
-- `config` -> In this folder, anything and everything regarding any configurations or setup of a library or module will be done. For example: setting up 'dotenv' so that we can use the environment variables anywhere in a cleaner fashion, this is done in the 'server-config.js' file. One more example can be to setup you logging library that can help you to prepare meaningful logs, so configuration for this library should also be done here. 
+- **`src/`**: Contains core application files:
+  - **Routes**: Define API endpoints and route handling.
+  - **Migrations**: Define and manage database schema changes.
+  - **Seeders**: Populate the database with initial data.
+  - **Controllers**: Handle incoming requests and responses.
+  - **Services**: Contain business logic and interact with the repository.
+  - **Repositories**: Manage data access and interactions with the database.
+  - **Models**: Define the database schema and associations.
+  - **Middlewares**: Validate and process requests before they reach the controllers.
+  - **Utils**: Contain common utility functions and error handling.
+  - **Config**: Configuration files for server, database, and logging.
 
-- `Routes` -> In the routes folder, we register a route and the corresponding middewares and controllers to it.
+- **`server.js`**: Entry point of the application, located outside the `src` folder. Initializes and starts the server.
 
-- `Middlewares` -> They are just going to intercept the incoming requests where we can write our validators, authenticators etc.
+## Setup Instructions
 
-- `Controllers` -> They are kind of last middlewares as post them you call your business layer to execute the business logic. In controllers, we just receive the incoming rquests and data and then pass it to the business layer, and once business layer returns an output, we structure the API response in controllers and send the output.
+### Prerequisites
 
-- `Repositories` -> This folder contains all the logic using which we interact the DB by writing queries, all the raw queries or ORM queries will go here.
+- Node.js (version 14 or higher)
+- MySQL (or another SQL-compatible database)
 
-- `Services` ->  This folder contains the business logic and interact with repositories for the data from the database.
+### Installation
 
-- `Utils` -> It contains helper methods, error classes etc.
+1. **Clone the Repository:**
+   ```
+   git clone https://github.com/ashu-devv/MechQuick-Assignment.git
+   ```
 
-### Setup the project
-- Download this template from github and open it in your text editor.
-- Go inside the folder path and execute the following command:
-```
-npm install
 
-```
-- In the root directory, create `.env` file and add the following environment variables
-```
-  PORT=<port number of your choice>
-```
-- Inside the `src/config` folder create a file named as `config.json` and paste the following code manually or run `npx sequelize init` to create config.json as described below:
-```
-{
-  "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  }
-}
-```
-- Go inside the `src` folder and execute the following command:
-```
- npx sequelize init
+2. **Navigate to the Project Directory:**
+   ```
+   cd MechQuick-Assignment
+   ```
 
-```
-- By executing the above command, you will get migrations and seeders folder along with a config.json inside the config folder.
-- If you are setting up your development environment,then write the username of your db,password of your db and in dailect mention whatever db you are using for ex: mysql, mariadb etc.
-- If you are setting up test or prod environment, make sure you also replace the host with the hosted db url.
+3.  **Install Dependencies:**
+   ```
+   npm install
+   ```
 
-- To run the server execute
-```
-npm run dev
+4. **Configure the Database:**
+   Create a configuration file src/config/config.json with the following structure:
+   ```
+   npx sequelize init
+   ```
 
-```
+5. **Create the Database:**
+  Run the following command to create the database:
+    ```
+    npm run db:create
+    ```
+
+    
+6.**Run the Application:**
+Start the application by running:
+   ```
+    npm run dev
+   ```
+    
+
+## Database Schema
+
+### Vehicle Model
+
+The Vehicle model includes the following fields:
+
+| Field        | Description                                                                                                       | Type  | Required | Values                                                                                                                           |
+|--------------|-------------------------------------------------------------------------------------------------------------------|-------|----------|----------------------------------------------------------------------------------------------------------------------------------|
+| `UserId`     | The ID of the user who booked the vehicle.                                                                        | STRING| Yes      | -                                                                                                                                |
+| `VehicleType`| The type of the vehicle.                                                                                           | ENUM  | Yes      | `SEDAN`, `HATCHBACK`, `SUV`, `COUPE`, `CONVERTIBLE`, `STATION_WAGON`, `MINIVAN`, `PICKUP_TRUCK`, `MOTORCYCLE`, `BICYCLE`, `VAN`, `BUS`, `TRUCK`, `LIMOUSINE`, `LUXURY_SEDAN`, `ELECTRIC_CAR`, `HYBRID_CAR`, `AMBULANCE`, `FIRE_TRUCK`, `POLICE_CAR`, `TOW_TRUCK`, `TOUR_BUS`, `PARTY_BUS`, `LIMOUSINE`, `ELECTRIC`, `HYBRID` |
+| `ServiceType`| The type of service provided.                                                                                      | ENUM  | Yes      | `ECONOMY`, `COMPACT`, `MID_SIZE`, `FULL_SIZE`, `LUXURY`, `RIDE_SHARE`, `CARPOOL`, `AIRPORT_TRANSFER`, `PET_FRIENDLY`, `ACCESSIBLE`, `BUSINESS`, `VIP`, `EXECUTIVE`, `INTERCITY`, `OUTSTATION`, `SELF_DRIVE`, `WITH_DRIVER`, `DELIVERY`, `MOVING`, `FREIGHT`, `COURIER`, `AMBULANCE`, `TOW_TRUCK`, `TOUR`, `PARTY_BUS`, `LIMOUSINE`, `ELECTRIC`, `HYBRID` |
+| `bookingDate`| The date when the vehicle was booked.                                                                             | DATE  | Yes      | -                                                                                                                                |
