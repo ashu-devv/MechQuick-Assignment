@@ -1,9 +1,9 @@
 const {StatusCodes} = require('http-status-codes');
 
 const AppError = require('../Utils/errors/app-error');
-const {VehicleRepository} = require('../repositories/vehicle-repository');
+const VehicleRepository = require('../repositories/vehicle-repository');
 
-const vehicleRepository = new vehicleRepository();
+const vehicleRepository = new VehicleRepository();
 
 async function createVehicle(data){
     try {
